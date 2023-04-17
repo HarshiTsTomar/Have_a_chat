@@ -1,0 +1,80 @@
+AIzaSyAWFPNuuRTj0kyNv-5_6WOHsob-X1Ovm2o
+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
+// ${video_title}
+url.match(/v=qCRc0X01_-o(\w+)/) 
+
+org-fiMPrhPhvOa4QganspZH1BuJ
+
+
+
+const {google} = require('googleapis');
+const openai = require('openai');
+const MongoClient = require('mongodb').MongoClient;
+
+// Set up the YouTube API client
+const youtube = google.youtube({
+  version: 'v3',
+  auth: 'AIzaSyAWFPNuuRTj0kyNv-5_6WOHsob-X1Ovm2o'
+});
+
+// Set up the OpenAI API client
+openai.api_key = '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';
+
+// Set up the MongoDB client
+const mongoURI = 'mongodb://localhost:27017';
+const client = new MongoClient(mongoURI, { useNewUrlParser: true });
+
+// Get the video ID from the YouTube URL
+const url = 'https://www.youtube.com/watch?v=qCRc0X01_-o';
+const video_id = 'qCRc0X01_-o';
+
+// Use the YouTube API to retrieve the video information
+youtube.videos.list({
+  part: 'snippet',
+  id: video_id
+}, (err, res) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  const video_title = res.data.items[0].snippet.title;
+  const video_description = res.data.items[0].snippet.description;
+
+  // Use OpenAI's Whisper API to extract the transcript
+  
+   
+  openai.Completion.create({
+    
+    engine: 'davinci',
+    prompt: `Extract the transcript of the video ' ${video_title} ${video_description} '`,
+    max_tokens: 1024,
+    n: 1,
+    stop: null,
+    temperature: 0.5
+  }, (err, response) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Parse the transcript
+    const transcript = response.choices[0].text.trim();
+
+    // Store the transcript in MongoDB
+    client.connect((err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const collection = client.db('QandA').collection('trial');
+      collection.insertOne({ transcript }, (err, result) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log('Transcript stored successfully in MongoDB!');
+        client.close();
+      });
+    });
+  });
+});
+

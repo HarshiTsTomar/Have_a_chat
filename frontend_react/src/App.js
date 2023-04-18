@@ -7,7 +7,7 @@ function App() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await axios.post('/api/answer', { question: question });
+    const response = await axios.post('/server', { question: question });
     setAnswer(response.data.answer);
   };
 

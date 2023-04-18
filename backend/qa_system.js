@@ -20,7 +20,7 @@ async function generateAnswer(question) {
   const closestSentence = sentences[result.ids[0]];
   const prompt = `Q: ${question}\nA:`;
   const response = await openai.complete({
-    engine: 'davinci',
+    model: 'text-davinci-003',
     prompt: prompt,
     maxTokens: 1024,
     context: closestSentence

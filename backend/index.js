@@ -7,7 +7,7 @@ dotenv.config();
 // Set up the YouTube API client
 const youtube = google.youtube({
   version: 'v3',
-  auth: 'AIzaSyAWFPNuuRTj0kyNv-5_6WOHsob-X1Ovm2o'
+  auth: 'GOOGLE_API_KEY'
 });
 
 

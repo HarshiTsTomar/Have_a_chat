@@ -1,5 +1,7 @@
 # Have a chat
-With this project you can paste url of any youtube vdo in index.js file.
+Imagine if instead of having to watch through a video lecture you could just ask questions to the lecture itself and finish your assignments.Well, you dont have to imagine anymore.
+
+With this project you can paste url of any youtube video in the index file.
 It is transcribed using whisper api from openAI.
 The transcription is stored in vector database and embedded using langchain and pinecone.
 you can then ask questions to this transcrption and it shows the closest match it can find as answer.
